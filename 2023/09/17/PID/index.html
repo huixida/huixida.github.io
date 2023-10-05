@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PID算法 | </title><meta name="author" content="Huixida"><meta name="copyright" content="Huixida"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="PID介绍PID是一种闭环控制算法。  开环：输入不受输出影响 闭环：输入受输出影响，让输出不断接近设定的期望值  用途温控电烙铁烤箱 数学表达式及含义P:Kp*e_ke_k-&gt;误差越大，p的输出也越大减小测量值和理论值之间的误差（差值），让测量值不断接近理论值&#x2F;期望值驱动小车I:Ki·e_j-&gt;误差的累加只要存在误差，不论误差有多小，i的输出也会像滚雪球一样越滚越大当系统误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PID算法">
+<meta property="og:url" content="http://huixida.github.io/2023/09/17/PID/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="PID介绍PID是一种闭环控制算法。  开环：输入不受输出影响 闭环：输入受输出影响，让输出不断接近设定的期望值  用途温控电烙铁烤箱 数学表达式及含义P:Kp*e_ke_k-&gt;误差越大，p的输出也越大减小测量值和理论值之间的误差（差值），让测量值不断接近理论值&#x2F;期望值驱动小车I:Ki·e_j-&gt;误差的累加只要存在误差，不论误差有多小，i的输出也会像滚雪球一样越滚越大当系统误">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://huixida.github.io/img/avatar.png">
+<meta property="article:published_time" content="2023-09-17T07:14:55.550Z">
+<meta property="article:modified_time" content="2023-09-17T09:42:07.020Z">
+<meta property="article:author" content="Huixida">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://huixida.github.io/img/avatar.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://huixida.github.io/2023/09/17/PID/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PID算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-17 17:42:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title=""><span class="site-name"></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">PID算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-17T07:14:55.550Z" title="发表于 2023-09-17 15:14:55">2023-09-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-17T09:42:07.020Z" title="更新于 2023-09-17 17:42:07">2023-09-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="PID算法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="PID介绍"><a href="#PID介绍" class="headerlink" title="PID介绍"></a>PID介绍</h3><p>PID是一种<strong>闭环控制</strong>算法。</p>
+<ul>
+<li><strong>开环</strong>：输入不受输出影响</li>
+<li><strong>闭环</strong>：输入受输出影响，让输出不断接近设定的期望值</li>
+</ul>
+<h3 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h3><p>温控电烙铁<br>烤箱</p>
+<h3 id="数学表达式及含义"><a href="#数学表达式及含义" class="headerlink" title="数学表达式及含义"></a>数学表达式及含义</h3><p>P:Kp*e_k<br>e_k-&gt;误差越大，p的输出也越大<br>减小测量值和理论值之间的误差（差值），让测量值不断接近理论值&#x2F;期望值<br>驱动小车<br>I:<br>Ki·e_j-&gt;误差的累加<br>只要存在误差，不论误差有多小，i的输出也会像滚雪球一样越滚越大<br>当系统误差已经接近0时，p的输出会很小，起不到继续减小误差的作用，<br>导致误差始终没办法减小到0。这个时候就需要让误差值不断累加，<br>将累加后的值输出。<br>消除稳态误差<br>D:<br>Kd(e_k-e_k-1)-&gt;两次误差之差<br>两次误差的差值越大，D的输出也越大<br>“阻尼”<br>如果系统误差很大或P参数较大，那么P的输出就会很大，导致系统剧烈响应，<br>出现过冲现象，此时就需要用到D算法来抑制，让系统可以刚好停在理论值而不过冲<br>减速</p>
+<h3 id="模拟调参-无人机"><a href="#模拟调参-无人机" class="headerlink" title="模拟调参-无人机"></a>模拟调参-无人机</h3><p>P-&gt;PD-&gt;PID</p>
+<h3 id="数学表达式到代码"><a href="#数学表达式到代码" class="headerlink" title="数学表达式到代码"></a>数学表达式到代码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int PID_value(float measure,float calcu)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"> err=measure-calcu;</span><br><span class="line"></span><br><span class="line"> err_sum+=err;</span><br><span class="line"> I_xianfu(2000);</span><br><span class="line"></span><br><span class="line"> err_difference=err-last_err;</span><br><span class="line"> last-err=err;</span><br><span class="line"></span><br><span class="line"> return Kp*err+Ki*err_sum+Kd*err_difference;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="PID组合"><a href="#PID组合" class="headerlink" title="PID组合"></a>PID组合</h3><h4 id="只有一个环"><a href="#只有一个环" class="headerlink" title="只有一个环"></a>只有一个环</h4><p>P:rerurn Kp*err</p>
+<p>PD:return Kp<em>err+Kd</em>err_difference</p>
+<p>PI:return Kp<em>err+Ki</em>err_sum</p>
+<p>PID:return Kp<em>err+Ki</em>err_sum+Kd*err_difference</p>
+<h4 id="有多个环"><a href="#有多个环" class="headerlink" title="有多个环"></a>有多个环</h4><p>直立环PD+速度环PI<br>PWM&#x3D;vertical_PD_value(measure,calcu)+velocity_PI_value(velocity_measure,velocity_calcu);<br>直立环PD+速度环PI+转向环PD</p>
+<h3 id="平衡小车PID"><a href="#平衡小车PID" class="headerlink" title="平衡小车PID"></a>平衡小车PID</h3><h3 id="实际调参-平衡小车"><a href="#实际调参-平衡小车" class="headerlink" title="实际调参-平衡小车"></a>实际调参-平衡小车</h3><h3 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">void setup() &#123;</span><br><span class="line">  // put your setup code here, to run once:</span><br><span class="line">  #define TrigPin A5</span><br><span class="line">  #define EchoPin A4</span><br><span class="line">   </span><br><span class="line">  pinMode(5, OUTPUT);//左轮</span><br><span class="line">  pinMode(6, OUTPUT);</span><br><span class="line">   </span><br><span class="line">  pinMode(9, OUTPUT);//右轮</span><br><span class="line">  pinMode(10, OUTPUT);</span><br><span class="line">  Serial.begin(9600);</span><br><span class="line">  initSet();</span><br><span class="line">&#125;</span><br><span class="line">float distance,count_err,last_err,err ;</span><br><span class="line">int kp,kd,ki,pid;</span><br><span class="line">float p,d,i ;</span><br><span class="line">int outputValue;</span><br><span class="line">void initSet()&#123;</span><br><span class="line">    kp = 800;</span><br><span class="line">    ki =10;</span><br><span class="line">    kd = 10;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">float targetDistance =15.0;</span><br><span class="line"> </span><br><span class="line">void PID_operation()&#123;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void loop() &#123;</span><br><span class="line">  pinMode(TrigPin,HIGH);</span><br><span class="line">  delayMicroseconds(1);</span><br><span class="line">  pinMode(TrigPin,LOW);</span><br><span class="line">  distance = pulseIn(EchoPin,HIGH);</span><br><span class="line">  distance = distance/10000*340/2;</span><br><span class="line">  Serial.println(distance);</span><br><span class="line">  //delay(200);</span><br><span class="line">  err = distance -targetDistance;//获得当前误差</span><br><span class="line">  count_err +=err;</span><br><span class="line">  pid = kp * err + ki*count_err +kd * (err - last_err); //获得p 的值</span><br><span class="line"> </span><br><span class="line">  last_err = err;</span><br><span class="line">  pwm_operation();</span><br><span class="line">  //转换成输出</span><br><span class="line"> //outputValue =  map(pid,0,1024,0,255);</span><br><span class="line">&#125;</span><br><span class="line">void pwm_operation()&#123;</span><br><span class="line">  if(pid &gt; 0)&#123; //前进</span><br><span class="line">    if(pid&gt;1000)&#123;</span><br><span class="line">      pid = 1024;</span><br><span class="line">      //转换成输出</span><br><span class="line"> outputValue =  map(pid,0,1024,0,255);</span><br><span class="line"> up(outputValue);</span><br><span class="line">    &#125;else if(pid&lt;500)&#123;</span><br><span class="line"> </span><br><span class="line">      pid =200;  </span><br><span class="line">            //转换成输出</span><br><span class="line"> outputValue =  map(pid,0,1024,0,255);</span><br><span class="line">  up(outputValue);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;else if(pid &lt;0)&#123;//后退</span><br><span class="line">    if(pid&lt;-1000)&#123;</span><br><span class="line">      pid = 1024;</span><br><span class="line">            //转换成输出</span><br><span class="line"> outputValue =  map(pid,0,1024,0,255);</span><br><span class="line">  down(outputValue);</span><br><span class="line">    &#125;else if(pid&lt;-500)&#123;</span><br><span class="line">      pid = 200;  </span><br><span class="line">            //转换成输出</span><br><span class="line"> outputValue =  map(pid,0,1024,0,255);</span><br><span class="line"> down(outputValue);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;else if(pid == 0)&#123;</span><br><span class="line">    pid = 0;</span><br><span class="line">  &#125;</span><br><span class="line">    </span><br><span class="line">     </span><br><span class="line">&#125;</span><br><span class="line">void up(int speeds)&#123;</span><br><span class="line"> </span><br><span class="line">  </span><br><span class="line">  analogWrite(5,speeds);//左轮前进</span><br><span class="line">  digitalWrite(6,LOW);</span><br><span class="line"> </span><br><span class="line">  analogWrite(10,speeds);//右轮前进</span><br><span class="line">  digitalWrite(9,LOW);</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void down(int speeds)&#123;</span><br><span class="line">  </span><br><span class="line">  digitalWrite(5,LOW);//左轮后退</span><br><span class="line">   </span><br><span class="line">  analogWrite(6, speeds); </span><br><span class="line"> </span><br><span class="line">  digitalWrite(10,LOW);//右轮后退</span><br><span class="line">  analogWrite(9, speeds); </span><br><span class="line">   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int PID_value(float measure,float calcu)</span><br><span class="line">&#123;</span><br><span class="line"> err=measure-calcu;</span><br><span class="line"></span><br><span class="line"> err_sum+=err;</span><br><span class="line"> _xianfu(2000);</span><br><span class="line"> err_difference=err-last_err;</span><br><span class="line"> last-err=err;</span><br><span class="line"> return Kp*err+Ki*err_sum+Kd*err_difference;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://huixida.github.io">Huixida</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huixida.github.io/2023/09/17/PID/">http://huixida.github.io/2023/09/17/PID/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huixida.github.io" target="_blank"></a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/09/14/51%E5%8D%95%E7%89%87%E6%9C%BA/" title="51单片机"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">51单片机</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Huixida</div><div class="author-info__description">那些来自命运深处的风，无人可以抵挡</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#PID%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">PID介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E9%80%94"><span class="toc-number">2.</span> <span class="toc-text">用途</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8F%8A%E5%90%AB%E4%B9%89"><span class="toc-number">3.</span> <span class="toc-text">数学表达式及含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E8%B0%83%E5%8F%82-%E6%97%A0%E4%BA%BA%E6%9C%BA"><span class="toc-number">4.</span> <span class="toc-text">模拟调参-无人机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%B0%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">数学表达式到代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PID%E7%BB%84%E5%90%88"><span class="toc-number">6.</span> <span class="toc-text">PID组合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E7%8E%AF"><span class="toc-number">6.1.</span> <span class="toc-text">只有一个环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%A4%9A%E4%B8%AA%E7%8E%AF"><span class="toc-number">6.2.</span> <span class="toc-text">有多个环</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E5%B0%8F%E8%BD%A6PID"><span class="toc-number">7.</span> <span class="toc-text">平衡小车PID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E8%B0%83%E5%8F%82-%E5%B9%B3%E8%A1%A1%E5%B0%8F%E8%BD%A6"><span class="toc-number">8.</span> <span class="toc-text">实际调参-平衡小车</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">任务</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/17/PID/" title="PID算法">PID算法</a><time datetime="2023-09-17T07:14:55.550Z" title="发表于 2023-09-17 15:14:55">2023-09-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/14/51%E5%8D%95%E7%89%87%E6%9C%BA/" title="51单片机">51单片机</a><time datetime="2023-09-14T13:20:11.412Z" title="发表于 2023-09-14 21:20:11">2023-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/22/git/" title="Git">Git</a><time datetime="2023-08-22T10:30:34.227Z" title="发表于 2023-08-22 18:30:34">2023-08-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Huixida</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
